@@ -77,7 +77,7 @@ gobuster dir -u http://10.48.171.208/island -w/usr/share/wordlists/dirbuster/dir
 <p align="center">
   <img src="screenshort/2100.png" width="600">
 </p>
-- Here we found another directory :/2100 -- (What is the Web Directory you found?)
+- Here we found another directory : 2100 
 
 - Now doing the same again go to the browser and serarch
 ```bash
@@ -88,7 +88,7 @@ http://10.48.171.208/island/2100
 </p>
 
 - view the page source
-- 
+  
 <p align="center">
   <img src="screenshort/Ticket source.png" width="600">
 </p>
@@ -102,7 +102,7 @@ gobuster dir --url 10.48.171.208/island/2100 --wordlist /usr/share/wordlists/dir
   <img src="screenshort/green_arrow.ticket.png" width="600">
 </p>
 
-- Found another director : /green_arrow.ticket
+- Found another director : green_arrow.ticket
 
 - Again going to the browser search
 ```bash
@@ -116,10 +116,6 @@ http://10.48.171.208/island/2100/green_arrow.ticket.
 ```bash
 RTy8yhBQdscX
 ```
-<p align="center">
-  <img src="screenshort/Ticket source.png" width="600">
-</p>
-
 - Go to **https://gchq.github.io/CyberChef/**
 - Use 'FromBase58' to decode it.
 
@@ -211,30 +207,41 @@ ftp 10.48.171.208
 ```bash
 file Leave_me_alone.jpg
 ```
-- Gambar
+<p align="center">
+  <img src="screenshort/file.png" width="600">
+</p>
 
 - file command identifies files based on magic bytes/headers, which are the first 8 bytes of the file.
 - Checking with hexedit, we find the first 6 bytes are wrong.
 ```bash
 hexedit Leave_me_alone.png
 ```
- - Gambar 1 code hexedit
+ <p align="center">
+  <img src="screenshort/hexedit.png" width="600">
+</p>
+   
 ```bash
 58 45 6F AE 0D 0A 1A 0A 
 ```
- - Gambar dalam code salah 
+<p align="center">
+  <img src="screenshort/wrong bytes.png" width="600">
+</p>
 
  - Try to fix them into **89 50 4E 47 0D 0A 1A 0A** (PNG's magic bytes), then press Ctrl+X to save and exit.
 ```bash
 89 50 4E 47 0D 0A 1A 0A
 ```
-- gambar code betul 
+<p align="center">
+  <img src="screenshort/correct bytes.png" width="600">
+</p>
 
 - Now it’s readable, and we get the password: password.
 ```bash
 password
 ```
-- Gambar dpt password 
+<p align="center">
+  <img src="screenshort/password.png" width="600">
+</p>
 
 - Back to steghide, extract the hidden files in aa.jpg.
 ```bash
@@ -245,7 +252,9 @@ cat passwd.txt
 cat shado
 ```
 
-- Gambar steghide 
+<p align="center">
+  <img src="screenshort/M3tahuman.png" width="600">
+</p>
 
 - We find 2 files.
   - passwd.txt
@@ -266,7 +275,9 @@ M3tahuman
 ```bash
 ssh slade@10.48.171.208
 ```
-- Gambar Welcome
+<p align="center">
+  <img src="screenshort/Welcome Lian_Yu.png" width="600">
+</p>
 
 - Now that you logged in search the user.txt flag
   - slade@LianYu:~$ ls
@@ -281,7 +292,9 @@ cat user.txt
 THM{P30P7E_K33P_53CRET5__C0MPUT3R5_D0N'T}
 ```
 
-- gambar Flag 
+<p align="center">
+  <img src="screenshort/ls .png" width="600">
+</p>
 
 ## Step 7: Root Privilage Escalation
 
@@ -289,7 +302,9 @@ THM{P30P7E_K33P_53CRET5__C0MPUT3R5_D0N'T}
 ```bash
 sudo -l
 ```
-- Gambar
+<p align="center">
+  <img src="screenshort/sudo -l.png" width="600">
+</p>
 
 - After running sudo -l , it will again ask for slade password -- use the same password - 'M3tahuman'.
 ```bash
@@ -306,7 +321,9 @@ root
 root.txt
 #cat root.txt
 ```
-- Gambar 
+<p align="center">
+  <img src="screenshort/Sudo pkexec.png" width="600">
+</p>
 
 - we get another Flag
 ```bash
@@ -337,7 +354,9 @@ user.txt
 root.txt
 -THM{MY_W0RD_I5_MY_B0ND_IF_I_ACC3PT_YOUR_CONTRACT_THEN_IT_WILL_BE_COMPL3TED_OR_I'LL_BE_D34D}
 ```
-- Gambar Full
+<p align="center">
+  <img src="screenshort/answer.png" width="600">
+</p>
 
 
 
