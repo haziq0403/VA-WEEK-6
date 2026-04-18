@@ -22,7 +22,9 @@ This lab focuses on performing vulnerability analysis using enumeration techniqu
 ```bash
 nmap -sC -sV 10.48.171.208
 ```
-Gambar 
+<p align="center">
+  <img src="screenshort/Scanning IP.png" width="600">
+</p>
 
 **we found 4 port**
   
@@ -36,7 +38,9 @@ Gambar
 - Open browser and put IP target **10.48.171.208**
 - We find a webpage about a short story about ARROWVERSE
   
-- Gambar 
+<p align="center">
+  <img src="screenshort/Arrowverse.png" width="600">
+</p>
 
 -  Now run gobuster for hidden Directories.
 -  This command for gobuster
@@ -44,7 +48,9 @@ Gambar
 ```bash
 gobuster dir -u http://10.48.171.208/ --w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt
 ```
-- gambar
+<p align="center">
+  <img src="screenshort/Island.png" width="600">
+</p>
 
 - Found a directory : /island
 
@@ -53,50 +59,73 @@ gobuster dir -u http://10.48.171.208/ --w /usr/share/wordlists/dirbuster/directo
 ```bash
  http://10.48.171.208/island
 ```
-- Gambar 
+<p align="center">
+  <img src="screenshort/Island page.png" width="600">
+</p>
 
 - Found out the Code Word by highlighting the page text or viewing the page source.
   Code Word - 'vigilante' - (this is our FTP username)
 
-- Gambar
+<p align="center">
+  <img src="screenshort/Vigilante source.png" width="600">
+</p>
 
 - Again run gobuster on /island directory to discover a different directory.
 ```bash
 gobuster dir -u http://10.48.171.208/island -w/usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt
 ```
-- Gambar
-- Here we found another directory : **/2100** -- (What is the Web Directory you found?)
+<p align="center">
+  <img src="screenshort/2100.png" width="600">
+</p>
+- Here we found another directory :/2100 -- (What is the Web Directory you found?)
 
 - Now doing the same again go to the browser and serarch
 ```bash
 http://10.48.171.208/island/2100
 ```
+<p align="center">
+  <img src="screenshort/2100 page.png" width="600">
+</p>
 
 - view the page source
-- Gambar
+- 
+<p align="center">
+  <img src="screenshort/Ticket source.png" width="600">
+</p>
 
 - Here it says there is a file with a '.ticket' extension.
 - Now again run gobuster to look for files with a '.ticket' extension.
 ```bash
 gobuster dir --url 10.48.171.208/island/2100 --wordlist /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x .ticket
 ```
-- Gambar
+<p align="center">
+  <img src="screenshort/green_arrow.ticket.png" width="600">
+</p>
+
 - Found another director : /green_arrow.ticket
 
 - Again going to the browser search
 ```bash
 http://10.48.171.208/island/2100/green_arrow.ticket.
 ```
-- Gambar
+<p align="center">
+  <img src="screenshort/green page.png" width="600">
+</p>
 
 - It seems we found an encryption: **'RTy8yhBQdscX'** . So now let’s try to decode it
 ```bash
 RTy8yhBQdscX
 ```
-- Go to **https://gchq.github.io/CyberChef/**
-  Use 'FromBase58' to decode it.
+<p align="center">
+  <img src="screenshort/Ticket source.png" width="600">
+</p>
 
-- Gambar
+- Go to **https://gchq.github.io/CyberChef/**
+- Use 'FromBase58' to decode it.
+
+<p align="center">
+  <img src="screenshort/CyberChef.png" width="600">
+</p>
 
 - Seems like we have cracked it : **'!#th3h00d'** - This is the FTP Password.
 ```bash
@@ -111,7 +140,9 @@ RTy8yhBQdscX
 ```bash
 ftp 10.48.171.208
 ```
-- Gambar
+<p align="center">
+  <img src="screenshort/ftp 10.48.171.208.png" width="600">
+</p>
   
 - We find 3 image files, download all of them, and also download .bash_history.
 
@@ -120,7 +151,9 @@ ftp 10.48.171.208
   - get aa.jpg
   - get .bash_history
 
-- Gambar
+<p align="center">
+  <img src="screenshort/ftp picture.png" width="600">
+</p>
 
 - Moving up again, we can access the root directory and even visit other directories, which are worth enumerating later.
   - cd ..
@@ -131,13 +164,25 @@ ftp 10.48.171.208
 - Now view the image files and we see that 'Leave.me.alone.png' is not opening.
 - Also the exiftool shows 'File Format error'
 
-- Gambar 
+<p align="center">
+  <img src="screenshort/file format error.png" width="600">
+</p>
+
 
 ## Step 4: FTP File Enumeration 
 - We find 1 PNG, 1 JPG, and 1 corrupted PNG.
-  - gambar 1
-  - gambar 2
-  - gambar 3
+<p align="center">
+  <img src="screenshort/1.png" width="600">
+</p>
+
+<p align="center">
+  <img src="screenshort/2.png" width="600">
+</p>
+
+<p align="center">
+  <img src="screenshort/3.png" width="600">
+</p>
+
 
 - here might be something hidden within them.
 - Try to read readable strings, read metadata, and find hidden files.
@@ -148,7 +193,15 @@ ftp 10.48.171.208
   - exiftool aa.jpg
   - steghide info aa.jpg
 
-- gambar
+<p align="center">
+  <img src="screenshort/Strings.png" width="600">
+</p>
+
+- Using steghide, we find embedded data within aa.jpg which requires a passphrase.
+  
+<p align="center">
+  <img src="screenshort/steghide info .png" width="600">
+</p>
 
 ## Step 5: Extract Hidden Files and Gain Access
 
